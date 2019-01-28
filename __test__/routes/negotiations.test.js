@@ -9,7 +9,7 @@ describe('/negotiations/create', () => {
     }));
 
   test('Request should have the desired properties', () => request(app)
-    .get('(res)gotiations/create')
+    .get('/negotiations/create')
     .then((res) => {
       expect(res.statusCode).toBe(201);
     }));
