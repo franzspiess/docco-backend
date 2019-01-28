@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "jest --watch",
-    "start": "node ./src/bin/www"
+    "start": "node ./src/bin/www",
+    "dev": "DEBUG=docco-backend:* nodemon ./src/bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
