@@ -1,5 +1,6 @@
 const request = require('supertest');
-const app = require('../../app');
+const app = require('../../src/app');
+const mock = require('../__mock__/negotations.mock');
 
 describe('/negotiations/create', () => {
   test('It should respond a 201', () => request(app)
