@@ -1,3 +1,5 @@
+// all mocks for routes should be here
+
 const mock = {};
 
 mock.validCreateBody = {

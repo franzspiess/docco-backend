@@ -6,6 +6,7 @@ describe('Route: /negotiations/:negotiation-id', () => {
   test('It should respond a GET with 200', async () => {
     const res = await request(app).get(`/negotiations/${negotiationId}`);
     expect(res.statusCode).toBe(200);
+    expect(res.body).toBe(200);
   });
 });
 
