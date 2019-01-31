@@ -16,9 +16,9 @@ describe('Route: parties/add-parties', () => {
     }));
 });
 
-describe('Route: parties/:parties-id', () => {
+describe('Route: parties/:partiesId', () => {
   test('It should respond a 200', () => request(app)
-    .get('/parties/:party-id')
+    .get('/parties/:partyId')
     .then((res) => {
       expect(res.statusCode).toBe(200);
     }));
