@@ -4,36 +4,34 @@ const router = express.Router();
 
 const Negotiations = require('../controllers/negotiations.controller');
 
-const negotiationController = new Negotiations();
+module.exports = (model) => {
+  const negotiationController = new Negotiations(model);
 
-const sequelize = require('../db/database');
+  // Get one
+  router.get('/:negotiationId', (req, res) => {
+    res.sendStatus(200);
+  });
 
-// Get one
-router.get('/:negotiationId', (req, res) => {
-  res.sendStatus(200);
-});
+  // Get all
+  router.get('/', (req, res) => {
+    res.sendStatus(200);
+  });
 
-// Get all
-router.get('/', (req, res) => {
-  res.sendStatus(200);
-});
+  // Add Parties
+  router.post('/:negotiationId/parties', (req, res) => {
+    res.sendStatus(201);
+  });
 
-// Add Parties
-router.post('/:negotiationId/parties', (req, res) => {
-  res.sendStatus(201);
-});
+  // Publish amendment
+  router.post('/:negotiationId', (req, res) => {
+    res.sendStatus(201);
+  });
 
-// Publish amendment
-router.post('/:negotiationId', (req, res) => {
-  res.sendStatus(201);
-});
-
-// Create negotiation
-router.post('/', (req, res) => {
-  const { negotiation } = req.body;
-  const response = negotiationController.create(negotiation);
-  res.send(response);
-  res.status(201);
-});
-
-module.exports = router;
+  // Create negotiation
+  router.post('/', (req, res) => {
+    const { negotiation } = req.body;
+    const response = negotiationController.create(negotiation);
+    res.send(response);
+    res.status(201);
+  });
+};
