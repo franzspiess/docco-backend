@@ -1,20 +1,22 @@
-class PartiesController {
-  constructor(PartiesDB) {
-    this.PartyDataModel = PartiesDB;
+class Parties {
+  constructor(model) {
+    this.model = model;
     this.createParty = this.createParty.bind(this);
     this.getPartyDetails = this.getPartyDetails.bind(this);
   }
 
+  // eslint-disable-next-line no-unused-vars
   async createParty(req, res, next) {
-    const data = await this.PartyDataModel.createParty(req.body);
-    this.res.status(201).send(data.id);
+    const data = await this.model.create(req.body);
+    res.status(201).send(data.id);
   }
 
+  // eslint-disable-next-line no-unused-vars
   async getPartyDetails(req, res, next) {
     const partyId = this.req.headers.params; // re-check if this is how to get the :partyId
-    const partyData = await this.PartyDataModel.getPartyDetails(partyId);
-    this.res.status(200).send(partyData);
+    const partyData = await this.model.findById(partyId);
+    res.status(200).send(partyData);
   }
 }
 
-export default PartiesController;
+module.exports = Parties;
