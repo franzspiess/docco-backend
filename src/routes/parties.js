@@ -1,17 +1,11 @@
-const express = require('express');
+const router = require('express').Router();
+const PartiesController = require('../controllers/parties.controller');
 
-const router = express.Router();
+const PartiesDB = require('../models/parties.model'); // Database
 
-router.post('/create', (req, res, next) => {
-  res.sendStatus(201);
-});
+const parties = new PartiesController(PartiesDB);
 
-router.post('/add-parties', (req, res, next) => {
-  res.sendStatus(201);
-});
-
-router.get('/:party-id', (req, res, next) => {
-  res.sendStatus(200);
-});
+router.post('/', parties.createParty); // Route: creates new parties
+router.get('/:partyId', parties.getPartyDetails); // Route: Gets details for an individual party based on provided 'party-id'
 
 module.exports = router;
