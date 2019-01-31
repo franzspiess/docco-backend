@@ -8,14 +8,6 @@ describe('Route: parties/create', () => {
   });
 });
 
-describe('Route: parties/add-parties', () => {
-  test('It should respond a 200', () => request(app)
-    .post('/parties/add-parties')
-    .then((res) => {
-      expect(res.statusCode).toBe(201);
-    }));
-});
-
 describe('Route: parties/:partiesId', () => {
   test('It should respond a 200', () => request(app)
     .get('/parties/:partyId')
