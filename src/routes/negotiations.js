@@ -1,19 +1,39 @@
 const express = require('express');
-const contract = require('../../__test__/__mock__/contract.mock.json');
 
 const router = express.Router();
 
-router.get('/:negotiationId', (req, res) => {
-  const { negotiationId } = req.params;
-  res.status(200).send(contract);
-});
+const Negotiations = require('../controllers/negotiations.controller');
 
-router.get('/all', (req, res) => {
+const negotiationController = new Negotiations();
+
+const sequelize = require('../db/database');
+
+// Get one
+router.get('/:negotiationId', (req, res) => {
   res.sendStatus(200);
 });
 
-router.post('/create', (req, res) => {
+// Get all
+router.get('/', (req, res) => {
+  res.sendStatus(200);
+});
+
+// Add Parties
+router.post('/:negotiationId/parties', (req, res) => {
   res.sendStatus(201);
+});
+
+// Publish amendment
+router.post('/:negotiationId', (req, res) => {
+  res.sendStatus(201);
+});
+
+// Create negotiation
+router.post('/', (req, res) => {
+  const { negotiation } = req.body;
+  const response = negotiationController.create(negotiation);
+  res.send(response);
+  res.status(201);
 });
 
 module.exports = router;
