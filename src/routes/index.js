@@ -1,5 +1,5 @@
-const partiesRouter = require('./parties');
-const negotiationsRouter = require('./negotiations');
+const partiesRouter = require('./parties.routes');
+const negotiationsRouter = require('./negotiations.routes');
 
 module.exports = {
   partiesRouter,

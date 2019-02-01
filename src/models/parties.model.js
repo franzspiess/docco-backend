@@ -1,10 +1,5 @@
-module.exports = (sequelize, Sequelize) => {
-  const PartyModel = sequelize.define('Party', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
+module.exports = (Sequelize, sequelize) => {
+  const PartyModel = sequelize.define('party', {
     legal_name: {
       type: Sequelize.CHAR,
       allowNull: false,
@@ -30,6 +25,9 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       unique: false,
     },
+  },
+  {
+    timestamps: false,
   }, {});
   return PartyModel;
 };

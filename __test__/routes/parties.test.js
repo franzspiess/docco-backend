@@ -3,7 +3,7 @@ const app = require('../../src/app');
 
 describe('Route: parties/create', () => {
   test('It should respond with a 201', async () => {
-    const res = await request(app).post('/parties/create');
+    const res = await request(app).post('/parties');
     expect(res.statusCode).toBe(201);
   });
 });

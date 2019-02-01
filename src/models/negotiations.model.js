@@ -1,4 +1,4 @@
-module.exports = (sequelize, Sequelize) => {
+module.exports = (Sequelize, sequelize) => {
   const Negotiation = sequelize.define('Negotiation', {
     id: Sequelize.INTEGER,
     display_name: Sequelize.TEXT,

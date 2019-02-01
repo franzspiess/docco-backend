@@ -34,4 +34,5 @@ module.exports = (model) => {
     res.send(response);
     res.status(201);
   });
+  return router;
 };

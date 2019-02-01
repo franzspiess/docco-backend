@@ -7,15 +7,30 @@ class Parties {
 
   // eslint-disable-next-line no-unused-vars
   async createParty(req, res, next) {
-    const data = await this.model.create(req.body);
-    res.status(201).send(data.id);
+    try {
+      const data = await this.model.create(req.body);
+      res.status(201).send({
+        id: data.id,
+        created: true,
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+      res.sendStatus(422);
+    }
   }
 
   // eslint-disable-next-line no-unused-vars
   async getPartyDetails(req, res, next) {
-    const partyId = this.req.headers.params; // re-check if this is how to get the :partyId
-    const partyData = await this.model.findById(partyId);
-    res.status(200).send(partyData);
+    try {
+      const { partyId } = req.params;
+      const partyData = await this.model.findByPk(partyId);
+      res.status(200).send(partyData);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+      res.sendStatus(422);
+    }
   }
 }
 

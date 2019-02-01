@@ -27,7 +27,7 @@ sequelize
   });
 
 const Party = require('./parties.model')(Sequelize, sequelize);
-const Negotiation = require('./parties.model')();
+const Negotiation = require('./parties.model')(Sequelize, sequelize);
 
 module.exports = {
   Party,
