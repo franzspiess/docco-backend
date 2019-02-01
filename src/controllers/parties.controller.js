@@ -9,14 +9,11 @@ class Parties {
   async createParty(req, res, next) {
     try {
       const data = await this.model.create(req.body);
-      res.status(201).send({
-        id: data.id,
-        created: true,
-      });
+      res.status(201).send(data);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      res.sendStatus(422);
+      res.status(422).send();
     }
   }
 
@@ -29,7 +26,7 @@ class Parties {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
-      res.sendStatus(422);
+      res.status(404).send();
     }
   }
 }
