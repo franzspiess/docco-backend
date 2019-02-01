@@ -2,18 +2,10 @@ require('dotenv').config();
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-  host: 'localhost',
-  dialect: 'mysql',
-  operatorsAliases: false,
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/config')[env];
 
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
-  },
-});
+const sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 sequelize
   .authenticate()
