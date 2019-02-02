@@ -25,9 +25,8 @@ module.exports = (Sequelize, sequelize) => {
       allowNull: false,
       unique: false,
     },
-  },
-  {
+  }, {
     timestamps: false,
-  }, {});
+  });
   return PartyModel;
 };

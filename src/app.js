@@ -3,18 +3,20 @@ const express = require('express');
 const app = express();
 
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const { negotiationsRouter, partiesRouter } = require('./routes');
+const Router = require('./routes');
 const { Party, Negotiation } = require('./models');
+const PartiesController = require('./controllers/parties.controller');
+const NegotiationsController = require('./controllers/negotiations.controller');
+
+const partiesController = new PartiesController(Party);
+const negotiationsController = new NegotiationsController(Negotiation);
+
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/parties', partiesRouter(Party));
-app.use('/negotiations', negotiationsRouter(Negotiation));
-
+app.use('/', Router(partiesController, negotiationsController));
 module.exports = app;

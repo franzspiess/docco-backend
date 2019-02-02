@@ -19,7 +19,13 @@ sequelize
   });
 
 const Party = require('./parties.model')(Sequelize, sequelize);
-const Negotiation = require('./parties.model')(Sequelize, sequelize);
+const Negotiation = require('./negotiations.model')(Sequelize, sequelize);
+const Version = require('./versions.model')(Sequelize, sequelize);
+
+Negotiation.belongsTo(Party, { as: 'partyA', foreignKey: 'party_a' });
+Negotiation.belongsTo(Party, { as: 'partyB', foreignKey: 'party_b' });
+Negotiation.belongsTo(Version, { as: 'latestVersionA', foreignKey: 'latest_version_a' });
+Negotiation.belongsTo(Version, { as: 'latestVersionB', foreignKey: 'latest_version_b' });
 
 module.exports = {
   Party,
