@@ -1,5 +1,5 @@
 module.exports = (Sequelize, sequelize) => {
-  const Negotiation = sequelize.define('Negotiation', {
+  const Negotiation = sequelize.define('negotiation', {
     title: {
       type: Sequelize.CHAR,
       allowNull: false,
@@ -8,23 +8,23 @@ module.exports = (Sequelize, sequelize) => {
       type: Sequelize.CHAR,
       allowNull: true,
     },
-    party_a: {
+    partyA: {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    party_b: {
+    partyB: {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
-    latest_version_a: {
+    latestVersionA: {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
-    latest_version_b: {
+    latestVersionB: {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
-    latest_proposer_a: {
+    latestProposerA: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
     },

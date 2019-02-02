@@ -2,9 +2,7 @@
 const model = {
   create: jest.fn(() => ({
   })),
-  findByPk: jest.fn(() => ({
-    id: 1,
-  })),
+  findByPk: jest.fn(() => ({ id: 1 })),
 };
 
 const req = {

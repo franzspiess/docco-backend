@@ -1,5 +1,5 @@
 module.exports = (Sequelize, sequelize) => {
-  const Version = sequelize.define('Version', {
+  const Version = sequelize.define('version', {
     negotiation: {
       type: Sequelize.INTEGER,
       allowNull: false,
@@ -8,9 +8,13 @@ module.exports = (Sequelize, sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    created_at: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
+    approvedA: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
+    approvedB: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
     },
   },
   {

@@ -4,10 +4,34 @@ class Negotiations {
     this.versions = versions;
     this.create = this.create.bind(this);
     this.getOne = this.getOne.bind(this);
+    this.publish = this.publish.bind(this);
+  }
+
+  async publish(req, res) {
+    const { content, dealAgreed } = req.body;
+    const negotiation = req.params.negotiationId;
+    try {
+      if (!dealAgreed) {
+        const version = await this.versions.create({
+          negotiation,
+          content,
+          approvedA: true,
+          approvedB: false,
+        });
+
+        this.negotiations.update(
+          { latestVersionA: version.id, latestProposerA: true },
+          { where: { id: negotiation } },
+        ).then(rowsUpdate => res.status(201).send(rowsUpdate));
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      res.status(422).send(error);
+    }
   }
 
   async create(req, res) {
-    console.log('in negotiations controller');
     try {
       const negotiation = req.body;
       const data = await this.negotiations.create(negotiation);
@@ -24,7 +48,7 @@ class Negotiations {
       const { negotiationId: id } = req.params;
       const negotiation = await this.negotiations.findOne({
         where: { id },
-        include: ['partyA', 'partyB', 'latestVersionA', 'latestVersionB'],
+        include: ['aDetails', 'bDetails', 'aVersion', 'bVersion'],
       });
 
       res.send(negotiation).status(200);
@@ -33,7 +57,7 @@ class Negotiations {
       console.error(error);
       res.status(500);
     }
-
+  }
     /*
     {
       "negotiation_id": 2,
@@ -65,7 +89,6 @@ class Negotiations {
       "youEditedLast": false,
     }
     */
-  }
 
   async getAll(req, res) {
     /*

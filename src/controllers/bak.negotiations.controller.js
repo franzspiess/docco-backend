@@ -15,22 +15,25 @@ class Negotiations {
     res.status(201).send(data);
   }
 
+  // gets a specfic negotiation
   async getOne(req, res) {
     const { id } = req.params;
     const negotiation = await this.negotiationModel.findById(id);
     res.status(200).send(negotiation);
   }
 
+  // gets all of the negotiations
   async getAll(req, res) {
     const negotiations = await this.negotiationModel.find();
     res.status(200).send(negotiations);
   }
 
-  async addParties(req, res) {
-    const { partyId } = req.params;
-    const data = await this.negotiationModel.create(partyId);
-    res.status(201).send(data);
-  }
+  // async addParties(req, res) {
+  //   const { partyId } = req.params;
+  //   const data = await this.negotiationModel.create(partyId);
+  //   res.status(201).send(data);
+  // }
+
 
   async publish(req, res) {
     const { proposal } = req.body;

@@ -5,18 +5,19 @@ const app = express();
 const path = require('path');
 const logger = require('morgan');
 const Router = require('./routes');
-const { Party, Negotiation } = require('./models');
+const { Party, Negotiation, Version } = require('./models');
 const PartiesController = require('./controllers/parties.controller');
 const NegotiationsController = require('./controllers/negotiations.controller');
 
 const partiesController = new PartiesController(Party);
-const negotiationsController = new NegotiationsController(Negotiation);
+const negotiationsController = new NegotiationsController(Negotiation, Version);
 
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use(authenticate);
 
 app.use('/', Router(partiesController, negotiationsController));
 module.exports = app;
