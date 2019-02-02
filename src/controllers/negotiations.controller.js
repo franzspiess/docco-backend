@@ -1,40 +1,100 @@
 class Negotiations {
-  constructor(model) {
-    this.negotiationModel = model;
-
+  constructor(negotiations, versions) {
+    this.negotiations = negotiations;
+    this.versions = versions;
     this.create = this.create.bind(this);
     this.getOne = this.getOne.bind(this);
-    this.getAll = this.getAll.bind(this);
-    this.addParties = this.addParties.bind(this);
-    this.publish = this.publish.bind(this);
   }
 
   async create(req, res) {
-    const data = await this.negotiationModel.create(req.body);
-    res.status(201).send(data.id);
+    console.log('in negotiations controller');
+    try {
+      const negotiation = req.body;
+      const data = await this.negotiations.create(negotiation);
+      res.status(201).send(data);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      res.status(500);
+    }
   }
 
   async getOne(req, res) {
-    const { id } = req.params;
-    const negotiation = await this.negotiationModel.findById(id);
-    res.status(200).send(negotiation);
+    try {
+      const { negotiationId: id } = req.params;
+      const negotiation = await this.negotiations.findOne({
+        where: { id },
+        include: ['partyA', 'partyB', 'latestVersionA', 'latestVersionB'],
+      });
+
+      res.send(negotiation).status(200);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      res.status(500);
+    }
+
+    /*
+    {
+      "negotiation_id": 2,
+      "title": "Huge Loan",
+      "description": "Buy stuff you don't need with money you don't have.",
+      "your": {
+        "details": {
+          "legal_name": "Transformers Company Limited",
+          "display_name": "the_transformers",
+          "email": "money@gmail.com",
+          "address": "123 Fake Street, Fakeville, Australia, 3001, Flat Earth"
+        },
+        "content": {
+          "contract": "## TITLE this will be a markdown string very large string",
+          "modifiedAt": 123/123ç7123
+      }
+      },
+      "their": {
+        "details": {
+          "legal_name": "Transformers Company Limited",
+          "display_name": "the_transformers",
+          "email": "money@gmail.com",
+          "address": "123 Fake Street, Fakeville, Australia, 3001, Flat Earth"
+        },
+        "content": "## TITLE this will be a markdown string very large string",
+      }
+      "published_at": "2015-08-05T08:40:51.620Z",
+      "modified_at": "2018-08-05T08:40:51.620Z",
+      "youEditedLast": false,
+    }
+    */
   }
 
   async getAll(req, res) {
-    const negotiations = await this.negotiationModel.find();
-    res.status(200).send(negotiations);
-  }
-
-  async addParties(req, res) {
-    const { partyId } = req.params;
-    const data = await this.negotiationModel.create(partyId);
-    res.status(201).send(data);
-  }
-
-  async publish(req, res) {
-    const { proposal } = req.body;
-    const data = await this.negotiationModel.publish(proposal);
-    res.status(201).send(data);
+    /*
+      {
+        "negotiation_id": 5,
+        "title": "The Title",
+        "description": "A short explanation on the matter of the negotiation.",
+        "your": {
+          "details": {
+            "legal_name": "Transformers Company Limited",
+            "display_name": "the_transformers",
+            "email": "money@gmail.com",
+            "address": "123 Fake Street, Fakeville, Australia, 3001, Flat Earth"
+          }
+        },
+        "their": {
+          "details": {
+            "legal_name": "Apple Company Limited",
+            "display_name": "the_transformers",
+            "email": "money@gmail.com",
+            "address": "123 Fake Street, Fakeville, Australia, 3001, Flat Earth"
+          }
+        },
+        "published_at": "2015-08-05T08:40:51.620Z",
+        "modified_at": "2018-08-05T08:40:51.620Z",
+        "youEditedLast": false,
+      }
+    */
+    return this;
   }
 }
 

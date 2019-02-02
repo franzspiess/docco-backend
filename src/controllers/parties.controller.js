@@ -7,8 +7,8 @@ class Parties {
 
   // eslint-disable-next-line no-unused-vars
   async createParty(req, res, next) {
-    const data = await this.model.create(req.body);
-    res.status(201).send(data.id);
+    console.log('in parties controller');
+    res.status(200).send('hola');
   }
 
   // eslint-disable-next-line no-unused-vars

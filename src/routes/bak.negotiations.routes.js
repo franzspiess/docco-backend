@@ -1,7 +1,4 @@
-const express = require('express');
-
-const router = express.Router();
-
+const router = require('express').Router();
 const Negotiations = require('../controllers/negotiations.controller');
 
 module.exports = (model) => {
@@ -28,10 +25,7 @@ module.exports = (model) => {
   });
 
   // Create negotiation
-  router.post('/', (req, res) => {
-    const { negotiation } = req.body;
-    const response = negotiationController.create(negotiation);
-    res.send(response);
-    res.status(201);
-  });
+  router.post('/', negotiationController.create);
+
+  return router;
 };
