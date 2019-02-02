@@ -1,10 +1,5 @@
 module.exports = (Sequelize, sequelize) => {
-  const PartyModel = sequelize.define('Party', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
+  const PartyModel = sequelize.define('party', {
     legal_name: {
       type: Sequelize.CHAR,
       allowNull: false,

@@ -1,4 +1,7 @@
 const express = require('express');
+
+const app = express();
+
 const path = require('path');
 const logger = require('morgan');
 const Router = require('./routes');
@@ -9,8 +12,6 @@ const NegotiationsController = require('./controllers/negotiations.controller');
 const partiesController = new PartiesController(Party);
 const negotiationsController = new NegotiationsController(Negotiation);
 
-
-const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
