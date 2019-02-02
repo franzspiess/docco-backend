@@ -1,11 +1,36 @@
-module.exports = (sequelize, Sequelize) => {
+module.exports = (Sequelize, sequelize) => {
   const Negotiation = sequelize.define('Negotiation', {
-    id: Sequelize.INTEGER,
-    display_name: Sequelize.TEXT,
-    description: Sequelize.TEXT,
-    party_a: Sequelize.INTEGER,
-    party_b: Sequelize.INTEGER,
-    latest_version: Sequelize.INTEGER,
+    title: {
+      type: Sequelize.CHAR,
+      allowNull: false,
+    },
+    description: {
+      type: Sequelize.CHAR,
+      allowNull: true,
+    },
+    party_a: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
+    party_b: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
+    latest_version_a: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
+    latest_version_b: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
+    latest_proposer_a: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: false,
   });
 
   return Negotiation;

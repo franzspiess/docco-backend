@@ -1,4 +1,4 @@
-module.exports = (sequelize, Sequelize) => {
+module.exports = (Sequelize, sequelize) => {
   const PartyModel = sequelize.define('Party', {
     id: {
       type: Sequelize.INTEGER,
@@ -30,6 +30,8 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       unique: false,
     },
-  }, {});
+  }, {
+    timestamps: false,
+  });
   return PartyModel;
 };
