@@ -1,14 +1,18 @@
+const omit = require('../utils/omit');
+
 class Negotiations {
   constructor(negotiations, versions) {
     this.negotiations = negotiations;
     this.versions = versions;
     this.create = this.create.bind(this);
     this.getOne = this.getOne.bind(this);
+    this.getAll = this.getAll.bind(this);
     this.publish = this.publish.bind(this);
   }
 
   async publish(req, res) {
-    const { content, dealAgreed, token } = req.body;
+    const { content, dealAgreed } = req.body;
+    const { token } = req;
     const negotiation = req.params.negotiationId;
     try {
       if (!dealAgreed) {
@@ -19,8 +23,8 @@ class Negotiations {
         });
         this.negotiations.findByPk(negotiation).then((entry) => {
           entry.update(entry.partyA === token
-            ? { latestVersionA: version.id, latestProposerA: true }
-            : { latestVersionB: version.id, latestProposerA: false })
+            ? { aVersion: version.id, latestProposerA: true }
+            : { bVersion: version.id, latestProposerA: false })
             .then(data => res.status(201).send(data));
         });
       }
@@ -48,76 +52,66 @@ class Negotiations {
       const { negotiationId: id } = req.params;
       const negotiation = await this.negotiations.findOne({
         where: { id },
-        include: ['aDetails', 'bDetails', 'aVersion', 'bVersion'],
+        include: ['aDetails', 'bDetails', 'aContent', 'bContent'],
       });
 
-      res.send(negotiation).status(200);
+      const body = {
+        id: parseInt(id, 10),
+        title: negotiation.title,
+        description: negotiation.description,
+        your: {
+          details: omit(['authorisation'], negotiation.bDetails).dataValues,
+          content: negotiation.aContent,
+        },
+        their: {
+          details: omit(['authorisation'], negotiation.bDetails).dataValues,
+          content: negotiation.bContent,
+        },
+        publishedAt: negotiation.publishedAt,
+        modifiedAt: negotiation.publishedAt,
+        youEditedLast: true,
+      };
+
+      res.send(body).status(200);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
       res.status(500);
     }
   }
-    /*
-    {
-      "negotiation_id": 2,
-      "title": "Huge Loan",
-      "description": "Buy stuff you don't need with money you don't have.",
-      "your": {
-        "details": {
-          "legal_name": "Transformers Company Limited",
-          "display_name": "the_transformers",
-          "email": "money@gmail.com",
-          "address": "123 Fake Street, Fakeville, Australia, 3001, Flat Earth"
-        },
-        "content": {
-          "contract": "## TITLE this will be a markdown string very large string",
-          "modifiedAt": 123/123ç7123
-      }
-      },
-      "their": {
-        "details": {
-          "legal_name": "Transformers Company Limited",
-          "display_name": "the_transformers",
-          "email": "money@gmail.com",
-          "address": "123 Fake Street, Fakeville, Australia, 3001, Flat Earth"
-        },
-        "content": "## TITLE this will be a markdown string very large string",
-      }
-      "published_at": "2015-08-05T08:40:51.620Z",
-      "modified_at": "2018-08-05T08:40:51.620Z",
-      "youEditedLast": false,
-    }
-    */
 
   async getAll(req, res) {
-    /*
-      {
-        "negotiation_id": 5,
-        "title": "The Title",
-        "description": "A short explanation on the matter of the negotiation.",
-        "your": {
-          "details": {
-            "legal_name": "Transformers Company Limited",
-            "display_name": "the_transformers",
-            "email": "money@gmail.com",
-            "address": "123 Fake Street, Fakeville, Australia, 3001, Flat Earth"
-          }
-        },
-        "their": {
-          "details": {
-            "legal_name": "Apple Company Limited",
-            "display_name": "the_transformers",
-            "email": "money@gmail.com",
-            "address": "123 Fake Street, Fakeville, Australia, 3001, Flat Earth"
-          }
-        },
-        "published_at": "2015-08-05T08:40:51.620Z",
-        "modified_at": "2018-08-05T08:40:51.620Z",
-        "youEditedLast": false,
-      }
-    */
-    return this;
+    try {
+      const negotiations = await this.negotiations.findAll({
+        include: ['aDetails', 'bDetails', 'aContent', 'bContent'],
+      });
+
+      const body = negotiations.map((negotiation) => {
+        const [yourParty, yourDetails] = negotiation.partyA === req.token ? [negotiation.partyA, negotiation.aDetails] : [negotiation.partyB, negotiation.bDetails];
+
+        return {
+          title: negotiation.title,
+          description: negotiation.description,
+          your: {
+            details: omit(['authorisation'], negotiation.bDetails).dataValues,
+            content: negotiation.aContent,
+          },
+          their: {
+            details: omit(['authorisation'], negotiation.bDetails).dataValues,
+            content: negotiation.bContent,
+          },
+          publishedAt: negotiation.publishedAt,
+          modifiedAt: negotiation.publishedAt,
+          youEditedLast: true,
+        };
+      });
+
+      res.send(body).status(200);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      res.status(500);
+    }
   }
 }
 

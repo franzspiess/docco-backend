@@ -16,11 +16,11 @@ module.exports = (Sequelize, sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
-    latestVersionA: {
+    aVersion: {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
-    latestVersionB: {
+    bVersion: {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
