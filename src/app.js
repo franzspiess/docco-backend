@@ -13,7 +13,6 @@ const NegotiationsController = require('./controllers/negotiations.controller');
 const partiesController = new PartiesController(Party);
 const negotiationsController = new NegotiationsController(Negotiation, Version);
 
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
