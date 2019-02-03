@@ -30,4 +30,5 @@ Negotiation.belongsTo(Version, { as: 'bContent', foreignKey: 'bVersion' });
 module.exports = {
   Party,
   Negotiation,
+  Version,
 };

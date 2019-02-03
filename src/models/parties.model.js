@@ -1,17 +1,17 @@
 module.exports = (Sequelize, sequelize) => {
   const PartyModel = sequelize.define('party', {
     legalName: {
-      type: Sequelize.CHAR,
+      type: Sequelize.STRING,
       allowNull: false,
       unique: true,
     },
     displayName: {
-      type: Sequelize.CHAR,
+      type: Sequelize.STRING,
       allowNull: false,
       unique: true,
     },
     email: {
-      type: Sequelize.CHAR,
+      type: Sequelize.STRING,
       allowNull: false,
       unique: true,
     },

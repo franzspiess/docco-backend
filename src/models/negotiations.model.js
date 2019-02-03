@@ -1,5 +1,5 @@
 module.exports = (Sequelize, sequelize) => {
-  const Negotiation = sequelize.define('Negotiation', {
+  const Negotiation = sequelize.define('negotiation', {
     title: {
       type: Sequelize.CHAR,
       allowNull: false,

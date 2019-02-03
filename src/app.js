@@ -6,12 +6,12 @@ const path = require('path');
 const logger = require('morgan');
 const auth = require('./middleware/auth');
 const Router = require('./routes');
-const { Party, Negotiation } = require('./models');
+const { Party, Negotiation, Version } = require('./models');
 const PartiesController = require('./controllers/parties.controller');
 const NegotiationsController = require('./controllers/negotiations.controller');
 
 const partiesController = new PartiesController(Party);
-const negotiationsController = new NegotiationsController(Negotiation);
+const negotiationsController = new NegotiationsController(Negotiation, Version);
 
 
 app.use(logger('dev'));

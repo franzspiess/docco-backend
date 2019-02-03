@@ -7,6 +7,32 @@ class Negotiations {
     this.create = this.create.bind(this);
     this.getOne = this.getOne.bind(this);
     this.getAll = this.getAll.bind(this);
+    this.publish = this.publish.bind(this);
+  }
+
+  async publish(req, res) {
+    const { content, dealAgreed } = req.body;
+    const { token } = req;
+    const negotiation = req.params.negotiationId;
+    try {
+      if (!dealAgreed) {
+        const version = await this.versions.create({
+          negotiation,
+          content,
+          dealAgreed,
+        });
+        this.negotiations.findByPk(negotiation).then((entry) => {
+          entry.update(entry.partyA === token
+            ? { aVersion: version.id, latestProposerA: true }
+            : { bVersion: version.id, latestProposerA: false })
+            .then(data => res.status(201).send(data));
+        });
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      res.status(422).send(error);
+    }
   }
 
   async create(req, res) {
@@ -59,7 +85,6 @@ class Negotiations {
       const negotiations = await this.negotiations.findAll({
         include: ['aDetails', 'bDetails', 'aContent', 'bContent'],
       });
-
 
       const body = negotiations.map((negotiation) => {
         const [yourParty, yourDetails] = negotiation.partyA === req.token ? [negotiation.partyA, negotiation.aDetails] : [negotiation.partyB, negotiation.bDetails];
