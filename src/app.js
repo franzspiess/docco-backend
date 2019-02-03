@@ -4,6 +4,7 @@ const app = express();
 
 const path = require('path');
 const logger = require('morgan');
+const auth = require('./middleware/auth');
 const Router = require('./routes');
 const { Party, Negotiation } = require('./models');
 const PartiesController = require('./controllers/parties.controller');
@@ -17,6 +18,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(auth);
 
 app.use('/', Router(partiesController, negotiationsController));
 module.exports = app;
