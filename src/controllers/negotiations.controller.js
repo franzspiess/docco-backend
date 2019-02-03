@@ -8,21 +8,21 @@ class Negotiations {
   }
 
   async publish(req, res) {
-    const { content, dealAgreed } = req.body;
+    const { content, dealAgreed, token } = req.body;
     const negotiation = req.params.negotiationId;
     try {
       if (!dealAgreed) {
         const version = await this.versions.create({
           negotiation,
           content,
-          approvedA: true,
-          approvedB: false,
+          dealAgreed,
         });
-
-        this.negotiations.update(
-          { latestVersionA: version.id, latestProposerA: true },
-          { where: { id: negotiation } },
-        ).then(rowsUpdate => res.status(201).send(rowsUpdate));
+        this.negotiations.findByPk(negotiation).then((entry) => {
+          entry.update(entry.partyA === token
+            ? { latestVersionA: version.id, latestProposerA: true }
+            : { latestVersionB: version.id, latestProposerA: false })
+            .then(data => res.status(201).send(data));
+        });
       }
     } catch (error) {
       // eslint-disable-next-line no-console

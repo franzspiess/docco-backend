@@ -1,14 +1,25 @@
+const data = {
+  legalName: 'The Little Company Pty Ltd',
+  displayName: 'Little Company',
+  email: 'littleparty@littlecompany.com',
+  address: '100 Queens Road Central, Hong Kong, S.A.R.',
+};
 
 const model = {
   create: jest.fn(() => ({
   })),
-  findByPk: jest.fn(() => ({ id: 1 })),
+  findByPk: jest.fn(() => ({
+    legalName: 'The Little Company Pty Ltd',
+    displayName: 'Little Company',
+    email: 'littleparty@littlecompany.com',
+    address: '100 Queens Road Central, Hong Kong, S.A.R.',
+  })),
 };
 
 const req = {
   body: {
-    legal_name: 'The Little Company Pty Ltd',
-    display_name: 'Little Company',
+    legalName: 'The Little Company Pty Ltd',
+    displayName: 'Little Company',
     email: 'littleparty@littlecompany.com',
     address: '100 Queens Road Central, Hong Kong, S.A.R.',
     authorisation: 'password',
@@ -26,6 +37,7 @@ const res = {
 };
 
 module.exports = {
+  data,
   model,
   req,
   res,

@@ -9,7 +9,12 @@ class Parties {
   async createParty(req, res, next) {
     try {
       const data = await this.model.create(req.body);
-      res.status(201).send({ ...data, authorisation: 'AUTHENTICATED' });
+      res.status(201).send({
+        legalName: data.legalName,
+        displayName: data.displayName,
+        email: data.email,
+        address: data.address,
+      });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

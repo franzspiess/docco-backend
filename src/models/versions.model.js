@@ -8,11 +8,7 @@ module.exports = (Sequelize, sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    approvedA: {
-      type: Sequelize.BOOLEAN,
-      allowNull: false,
-    },
-    approvedB: {
+    dealAgreed: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
     },
