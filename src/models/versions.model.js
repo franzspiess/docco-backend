@@ -8,7 +8,7 @@ module.exports = (Sequelize, sequelize) => {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    created_at: {
+    createdAt: {
       type: Sequelize.INTEGER,
       allowNull: true,
     },
