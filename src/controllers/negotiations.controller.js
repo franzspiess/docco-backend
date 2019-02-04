@@ -16,16 +16,27 @@ class Negotiations {
     const negotiation = req.params.negotiationId;
     try {
       if (!dealAgreed) {
-        const version = await this.versions.create({
+        const newVersion = await this.versions.create({
           negotiation,
           content,
           dealAgreed,
         });
         this.negotiations.findByPk(negotiation).then((entry) => {
           entry.update(entry.partyA === token
-            ? { aVersion: version.id, latestProposerA: true }
-            : { bVersion: version.id, latestProposerA: false })
+            ? { aVersion: newVersion.id, latestProposerA: true }
+            : { bVersion: newVersion.id, latestProposerA: false })
             .then(data => res.status(201).send(data));
+        });
+      } else if (dealAgreed) {
+        this.negotiations.findByPk(negotiation).then((entry) => {
+          const agreedVersion = entry.latestProposerA ? entry.aVersion : entry.bVersion;
+          entry.update({
+            latestProposerA: true,
+            aVersion: agreedVersion,
+            bVersion: agreedVersion,
+          }).then(this.versions.findByPk(agreedVersion).then((version) => {
+            version.update({ dealAgreed: true });
+          })).then(data => res.status(200).send(data));
         });
       }
     } catch (error) {
@@ -37,9 +48,19 @@ class Negotiations {
 
   async create(req, res) {
     try {
-      const negotiation = req.body;
-      const data = await this.negotiations.create(negotiation);
-      res.status(201).send(data);
+      const { token } = req;
+      const negotiationDetails = { ...req.body, partyA: token, latestProposerA: true };
+      const data = await this.negotiations.create(omit(['content'], negotiationDetails));
+      this.versions.create({
+        negotiation: data.id,
+        content: negotiationDetails.content,
+        dealAgreed: false,
+      }).then((version) => {
+        this.negotiations.update(
+          { aVersion: version.id },
+          { where: { id: data.id } },
+        ).then(final => res.status(201).send(final));
+      });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

@@ -1,3 +1,5 @@
+const omit = require('../utils/omit');
+
 class Parties {
   constructor(model) {
     this.model = model;
@@ -10,12 +12,7 @@ class Parties {
   async createParty(req, res, next) {
     try {
       const data = await this.model.create(req.body);
-      res.status(201).send({
-        legalName: data.legalName,
-        displayName: data.displayName,
-        email: data.email,
-        address: data.address,
-      });
+      res.status(201).send(omit(['authorisation'], data.dataValues));
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -46,12 +43,7 @@ class Parties {
     try {
       const { partyId } = req.params;
       const data = await this.model.findByPk(partyId);
-      res.status(200).send({
-        legalName: data.legalName,
-        displayName: data.displayName,
-        email: data.email,
-        address: data.address,
-      });
+      res.status(200).send(omit(['authorisation'], data.dataValues));
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
