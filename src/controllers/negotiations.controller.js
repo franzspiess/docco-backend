@@ -1,3 +1,4 @@
+const sanitize = require('../utils/sanitize');
 const omit = require('../utils/omit');
 
 class Negotiations {
@@ -74,23 +75,26 @@ class Negotiations {
   async getOne(req, res) {
     try {
       const { negotiationId: id } = req.params;
-      const negotiation = await this.negotiations.findOne({
+      // destructuring/renaming avoids a layer of nesting of dataValues keys
+      const { dataValues: negotiation } = await this.negotiations.findOne({
         where: { id },
         include: ['aDetails', 'bDetails', 'aContent', 'bContent'],
       });
+
+      const partyId = req.token;
+
+      const [your, their] = partyId === negotiation.partyA
+        ? ['a', 'b']
+        : ['b', 'a'];
 
       const body = {
         id: parseInt(id, 10),
         title: negotiation.title,
         description: negotiation.description,
-        your: {
-          details: omit(['authorisation'], negotiation.bDetails).dataValues,
-          content: negotiation.aContent,
-        },
-        their: {
-          details: omit(['authorisation'], negotiation.bDetails).dataValues,
-          content: negotiation.bContent,
-        },
+        yourDetails: sanitize(negotiation[`${your}Details`]).dataValues,
+        yourContent: negotiation[`${your}Content`],
+        theirDetails: sanitize(negotiation[`${their}Details`]).dataValues,
+        theirContent: negotiation[`${their}Content`],
         publishedAt: negotiation.publishedAt,
         modifiedAt: negotiation.publishedAt,
         youEditedLast: true,
@@ -106,25 +110,28 @@ class Negotiations {
 
   async getAll(req, res) {
     try {
+      const partyId = req.token;
       const negotiations = await this.negotiations.findAll({
         include: ['aDetails', 'bDetails', 'aContent', 'bContent'],
       });
 
-      const body = negotiations.map(negotiation => ({
-        title: negotiation.title,
-        description: negotiation.description,
-        your: {
-          details: omit(['authorisation'], negotiation.bDetails).dataValues,
-          content: negotiation.aContent,
-        },
-        their: {
-          details: omit(['authorisation'], negotiation.bDetails).dataValues,
-          content: negotiation.bContent,
-        },
-        publishedAt: negotiation.publishedAt,
-        modifiedAt: negotiation.publishedAt,
-        youEditedLast: true,
-      }));
+      const body = negotiations.map((negotiation) => {
+        const [your, their] = partyId === negotiation.partyA
+          ? ['a', 'b']
+          : ['b', 'a'];
+        return {
+          id: parseInt(partyId, 10),
+          title: negotiation.title,
+          description: negotiation.description,
+          yourDetails: sanitize(negotiation[`${your}Details`]).dataValues,
+          yourContent: negotiation[`${your}Content`],
+          theirDetails: sanitize(negotiation[`${their}Details`]).dataValues,
+          theirContent: negotiation[`${their}Content`],
+          publishedAt: negotiation.publishedAt,
+          modifiedAt: negotiation.publishedAt,
+          youEditedLast: true,
+        };
+      });
 
       res.send(body).status(200);
     } catch (error) {

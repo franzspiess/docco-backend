@@ -23,7 +23,7 @@ const Negotiation = require('./negotiations.model')(Sequelize, sequelize);
 const Version = require('./versions.model')(Sequelize, sequelize);
 
 Negotiation.belongsTo(Party, { as: 'aDetails', foreignKey: 'partyA' });
-Negotiation.belongsTo(Party, { as: 'bDetails', foreignKey: 'partyA' });
+Negotiation.belongsTo(Party, { as: 'bDetails', foreignKey: 'partyB' });
 Negotiation.belongsTo(Version, { as: 'aContent', foreignKey: 'aVersion' });
 Negotiation.belongsTo(Version, { as: 'bContent', foreignKey: 'bVersion' });
 
