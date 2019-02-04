@@ -114,7 +114,6 @@ class Negotiations {
       const negotiations = await this.negotiations.findAll({
         include: ['aDetails', 'bDetails', 'aContent', 'bContent'],
       });
-
       const body = negotiations.map((negotiation) => {
         const [your, their] = partyId === negotiation.partyA
           ? ['a', 'b']

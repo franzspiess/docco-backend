@@ -16,10 +16,6 @@ describe('Controller: getPartyDetailsById', () => {
     await partiesController.getPartyDetailsById(mock.req, mock.res);
     expect(mock.res.status).toHaveBeenCalledWith(200);
   });
-  // test('It should send back an object with correct properties', async () => {
-  //   await partiesController.getPartyDetailsById(mock.req, mock.res);
-  //   expect(mock.res.send).toHaveBeenCalledWith(mock.data);
-  // });
 });
 
 describe('Controller: getPartyDetailsByEmail', () => {

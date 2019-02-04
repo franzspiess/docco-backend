@@ -14,7 +14,7 @@ module.exports = (Sequelize, sequelize) => {
     },
     partyB: {
       type: Sequelize.INTEGER,
-      allowNull: true,
+      allowNull: false,
     },
     aVersion: {
       type: Sequelize.INTEGER,
