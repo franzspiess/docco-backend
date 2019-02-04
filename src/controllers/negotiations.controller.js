@@ -59,7 +59,10 @@ class Negotiations {
         this.negotiations.update(
           { aVersion: version.id },
           { where: { id: data.id } },
-        ).then(final => res.status(201).send(final));
+        ).then(() => res.status(201).send({
+          ...data.dataValues,
+          versionA: version.id,
+        }));
       });
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -107,25 +110,21 @@ class Negotiations {
         include: ['aDetails', 'bDetails', 'aContent', 'bContent'],
       });
 
-      const body = negotiations.map((negotiation) => {
-        const [yourParty, yourDetails] = negotiation.partyA === req.token ? [negotiation.partyA, negotiation.aDetails] : [negotiation.partyB, negotiation.bDetails];
-
-        return {
-          title: negotiation.title,
-          description: negotiation.description,
-          your: {
-            details: omit(['authorisation'], negotiation.bDetails).dataValues,
-            content: negotiation.aContent,
-          },
-          their: {
-            details: omit(['authorisation'], negotiation.bDetails).dataValues,
-            content: negotiation.bContent,
-          },
-          publishedAt: negotiation.publishedAt,
-          modifiedAt: negotiation.publishedAt,
-          youEditedLast: true,
-        };
-      });
+      const body = negotiations.map(negotiation => ({
+        title: negotiation.title,
+        description: negotiation.description,
+        your: {
+          details: omit(['authorisation'], negotiation.bDetails).dataValues,
+          content: negotiation.aContent,
+        },
+        their: {
+          details: omit(['authorisation'], negotiation.bDetails).dataValues,
+          content: negotiation.bContent,
+        },
+        publishedAt: negotiation.publishedAt,
+        modifiedAt: negotiation.publishedAt,
+        youEditedLast: true,
+      }));
 
       res.send(body).status(200);
     } catch (error) {
