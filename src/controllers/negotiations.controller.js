@@ -37,9 +37,19 @@ class Negotiations {
 
   async create(req, res) {
     try {
-      const negotiation = req.body;
-      const data = await this.negotiations.create(negotiation);
-      res.status(201).send(data);
+      const { token } = req;
+      const negotiationDetails = { ...req.body, partyA: token, latestProposerA: true };
+      const data = await this.negotiations.create(omit(['content'], negotiationDetails));
+      this.versions.create({
+        negotiation: data.id,
+        content: negotiationDetails.content,
+        dealAgreed: false,
+      }).then((version) => {
+        this.negotiations.update(
+          { aVersion: version.id },
+          { where: { id: data.id } },
+        ).then(final => res.status(201).send(final));
+      });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
