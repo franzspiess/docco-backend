@@ -11,7 +11,7 @@ class Parties {
   // eslint-disable-next-line no-unused-vars
   async create(req, res, next) {
     try {
-      const data = await this.model.create(req.body);
+      const data = await this.parties.create(req.body);
       res.status(201).send(sanitize(data.dataValues));
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -37,7 +37,7 @@ class Parties {
   async getPartyDetailsById(req, res, next) {
     try {
       const { partyId } = req.params;
-      const data = await this.model.findByPk(partyId);
+      const data = await this.parties.findByPk(partyId);
       res.status(200).send(sanitize(data.dataValues));
     } catch (error) {
       // eslint-disable-next-line no-console
