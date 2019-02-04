@@ -1,6 +1,11 @@
 # TO DO:
 
-- [ ] Setup server for testing.
+- [ ] Authentication
+- [ ] Amend 'Create New Party' endpoint to take into account lack of Bearer Token
+
+
+
+<!-- - [ ] Setup server for testing.
 
 - [ ] Setup routes:
 
@@ -21,4 +26,4 @@
   2. Other endpoints:
 
   - [ ] POST: create user
-  - [ ] POST: create organisation / group
+  - [ ] POST: create organisation / group -->
