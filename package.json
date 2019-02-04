@@ -6,7 +6,7 @@
     "test": "jest --watch",
     "start": "node ./src/bin/www",
     "dev": "DEBUG=docco-backend:* nodemon ./src/bin/www",
-    "bootstrap": "node ./src/models/migrations/migrate"
+    "bootstrap": "node ./src/models/migrations/bootstrap"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
