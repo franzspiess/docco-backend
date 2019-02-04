@@ -4,4 +4,5 @@ module.exports = (req, res, next) => {
   const [, token] = authorization.split(' ');
   req.token = Number(token); // the token must be a number
   next();
+  return this;
 };

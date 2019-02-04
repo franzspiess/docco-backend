@@ -1,4 +1,4 @@
-const omit = require('../utils/omit');
+const sanitize = require('../utils/sanitize');
 
 class Parties {
   constructor(model) {
@@ -12,7 +12,7 @@ class Parties {
   async createParty(req, res, next) {
     try {
       const data = await this.model.create(req.body);
-      res.status(201).send(omit(['authorisation'], data.dataValues));
+      res.status(201).send(sanitize(data.dataValues));
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -43,7 +43,7 @@ class Parties {
     try {
       const { partyId } = req.params;
       const data = await this.model.findByPk(partyId);
-      res.status(200).send(omit(['authorisation'], data.dataValues));
+      res.status(200).send(sanitize(data.dataValues));
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
