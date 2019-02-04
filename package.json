@@ -5,7 +5,8 @@
   "scripts": {
     "test": "jest --watch",
     "start": "node ./src/bin/www",
-    "dev": "DEBUG=docco-backend:* nodemon ./src/bin/www"
+    "dev": "DEBUG=docco-backend:* nodemon ./src/bin/www",
+    "bootstrap": "node ./src/models/migrations/migrate"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -13,9 +14,11 @@
     "dotenv": "^6.2.0",
     "express": "~4.16.0",
     "morgan": "~1.9.0",
+    "mysql": "^2.16.0",
     "mysql2": "^1.6.4",
     "node-json2html": "^1.2.0",
-    "sequelize": "^4.42.0"
+    "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
