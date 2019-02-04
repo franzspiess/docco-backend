@@ -11,13 +11,13 @@ describe('Controller: createParty', async () => {
   });
 });
 
-describe('Controller: getPartyDetails', () => {
+describe('Controller: getPartyDetailsById', () => {
   test('It should respond with a status of 200', async () => {
-    await partiesController.getPartyDetails(mock.req, mock.res);
+    await partiesController.getPartyDetailsById(mock.req, mock.res);
     expect(mock.res.status).toHaveBeenCalledWith(200);
   });
   test('It should send back an object with correct properties', async () => {
-    await partiesController.getPartyDetails(mock.req, mock.res);
+    await partiesController.getPartyDetailsById(mock.req, mock.res);
     expect(mock.res.send).toHaveBeenCalledWith(mock.data);
   });
 });

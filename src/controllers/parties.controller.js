@@ -1,10 +1,11 @@
 const sanitize = require('../utils/sanitize');
+const omit = require('../utils/sanitize');
 
 class Parties {
   constructor(model) {
     this.model = model;
     this.createParty = this.createParty.bind(this);
-    this.getPartyDetails = this.getPartyDetails.bind(this);
+    this.getPartyDetailsById = this.getPartyDetailsById.bind(this);
     this.getPartyDetailsByEmail = this.getPartyDetailsByEmail.bind(this);
   }
 
@@ -25,12 +26,7 @@ class Parties {
     try {
       const { email } = req.params;
       const data = await this.model.findOne({ where: { email } });
-      res.status(200).send({
-        legalName: data.legalName,
-        displayName: data.displayName,
-        email: data.email,
-        address: data.address,
-      });
+      res.status(200).send(omit(['authorisation'], data.dataValues));
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -39,7 +35,7 @@ class Parties {
   }
 
   // eslint-disable-next-line no-unused-vars
-  async getPartyDetails(req, res, next) {
+  async getPartyDetailsById(req, res, next) {
     try {
       const { partyId } = req.params;
       const data = await this.model.findByPk(partyId);
