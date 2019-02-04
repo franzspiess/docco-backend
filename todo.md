@@ -1,29 +1,7 @@
 # TO DO:
 
-- [ ] Authentication
+- [ ] Authentication (Note: controllers a dependent on token, see commentary in auth.js file)
 - [ ] Amend 'Create New Party' endpoint to take into account lack of Bearer Token
-
-
-
-<!-- - [ ] Setup server for testing.
-
-- [ ] Setup routes:
-
-  1. Priority Endpoints:
-
-  #### Parties
-  x [ ] POST: Create Party 'parties'
-  x [ ] GET: Get Party Details 'parties/:party-id'
-
-  #### Negotiations
-  x [ ] GET: Get One 'negotiations/:negotiation-id'
-  x [ ] GET: Get All 'negotiations'
-  x [ ] POST: Create Negotiation 'negotiations'
-  x [ ] POST: Amendment save request 'negotiations/:nId/versions'
-  x [ ] GET: Get a specific version 'negotiations/:nId/versions/:version
-  x [ ] POST: Add party 'negotiations/:nId/parties
-
-  2. Other endpoints:
-
-  - [ ] POST: create user
-  - [ ] POST: create organisation / group -->
+- [ ] Implement edge case scenarios in creating of new negotiation etc
+- [ ] User database and associated endpoints (login, create user, create party as user)
+- [ ] Access to database needs to be restricted based on authenticated login

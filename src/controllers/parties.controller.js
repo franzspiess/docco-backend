@@ -2,18 +2,23 @@ const sanitize = require('../utils/sanitize');
 const omit = require('../utils/sanitize');
 
 class Parties {
-  constructor(model) {
-    this.model = model;
-    this.createParty = this.createParty.bind(this);
-    this.getPartyDetailsById = this.getPartyDetailsById.bind(this);
+  constructor(parties) {
+    this.parties = parties;
+    this.create = this.create.bind(this);
     this.getPartyDetailsByEmail = this.getPartyDetailsByEmail.bind(this);
+    this.getPartyDetailsById = this.getPartyDetailsById.bind(this);
   }
 
   // eslint-disable-next-line no-unused-vars
-  async createParty(req, res, next) {
+  async create(req, res, next) {
     try {
+<<<<<<< HEAD
       const data = await this.model.create(req.body);
       res.status(201).send(sanitize(data.dataValues));
+=======
+      const data = await this.parties.create(req.body);
+      res.status(201).send(omit(['authorisation'], data.dataValues));
+>>>>>>> chore: refined endpoints for handover
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -25,7 +30,7 @@ class Parties {
   async getPartyDetailsByEmail(req, res, next) {
     try {
       const { email } = req.params;
-      const data = await this.model.findOne({ where: { email } });
+      const data = await this.parties.findOne({ where: { email } });
       res.status(200).send(omit(['authorisation'], data.dataValues));
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -38,8 +43,13 @@ class Parties {
   async getPartyDetailsById(req, res, next) {
     try {
       const { partyId } = req.params;
+<<<<<<< HEAD
       const data = await this.model.findByPk(partyId);
       res.status(200).send(sanitize(data.dataValues));
+=======
+      const data = await this.parties.findByPk(partyId);
+      res.status(200).send(omit(['authorisation'], data.dataValues));
+>>>>>>> chore: refined endpoints for handover
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

@@ -116,13 +116,9 @@ class Negotiations {
       });
 
       const body = negotiations.map((negotiation) => {
-<<<<<<< HEAD
         const [your, their] = partyId === negotiation.partyA
           ? ['a', 'b']
           : ['b', 'a'];
-=======
-
->>>>>>> chore: parties endpoints apiary
         return {
           id: parseInt(partyId, 10),
           title: negotiation.title,
