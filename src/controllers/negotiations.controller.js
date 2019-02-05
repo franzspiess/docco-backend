@@ -2,9 +2,10 @@ const sanitize = require('../utils/sanitize');
 const omit = require('../utils/omit');
 
 class Negotiations {
-  constructor(negotiations, versions) {
+  constructor(negotiations, parties, versions) {
     this.negotiations = negotiations;
     this.versions = versions;
+    this.parties = parties;
     this.create = this.create.bind(this);
     this.getOne = this.getOne.bind(this);
     this.getAll = this.getAll.bind(this);
@@ -13,31 +14,39 @@ class Negotiations {
 
   async publish(req, res) {
     const { content, dealAgreed } = req.body;
-    const { token } = req;
+    const { partyId } = req;
     const negotiation = req.params.negotiationId;
     try {
       if (!dealAgreed) {
         const newVersion = await this.versions.create({
           negotiation,
           content,
-          dealAgreed,
+          dealAgreed
         });
-        this.negotiations.findByPk(negotiation).then((entry) => {
-          entry.update(entry.partyA === token
-            ? { aVersion: newVersion.id, latestProposerA: true }
-            : { bVersion: newVersion.id, latestProposerA: false })
+        this.negotiations.findByPk(negotiation).then(entry => {
+          entry
+            .update(
+              entry.partyA === partyId
+                ? { aVersion: newVersion.id, latestProposerA: true }
+                : { bVersion: newVersion.id, latestProposerA: false }
+            )
             .then(data => res.status(201).send(data));
         });
       } else if (dealAgreed) {
-        this.negotiations.findByPk(negotiation).then((entry) => {
+        this.negotiations.findByPk(negotiation).then(entry => {
           const agreedVersion = entry.latestProposerA ? entry.aVersion : entry.bVersion;
-          entry.update({
-            latestProposerA: true,
-            aVersion: agreedVersion,
-            bVersion: agreedVersion,
-          }).then(this.versions.findByPk(agreedVersion).then((version) => {
-            version.update({ dealAgreed: true });
-          })).then(data => res.status(200).send(data));
+          entry
+            .update({
+              latestProposerA: true,
+              aVersion: agreedVersion,
+              bVersion: agreedVersion
+            })
+            .then(
+              this.versions.findByPk(agreedVersion).then(version => {
+                version.update({ dealAgreed: true });
+              })
+            )
+            .then(data => res.status(200).send(data));
         });
       }
     } catch (error) {
@@ -49,22 +58,29 @@ class Negotiations {
 
   async create(req, res) {
     try {
-      const { token } = req;
-      const negotiationDetails = { ...req.body, partyA: token, latestProposerA: true };
+      const partyB = await this.parties.findOne({ where: { email: req.body.partyBEmail } });
+      const { partyId } = req;
+      const negotiationDetails = {
+        ...req.body,
+        partyA: partyId,
+        partyB: partyB.id,
+        latestProposerA: true
+      };
       const data = await this.negotiations.create(omit(['content'], negotiationDetails));
-      this.versions.create({
-        negotiation: data.id,
-        content: negotiationDetails.content,
-        dealAgreed: false,
-      }).then((version) => {
-        this.negotiations.update(
-          { aVersion: version.id },
-          { where: { id: data.id } },
-        ).then(() => res.status(201).send({
-          ...data.dataValues,
-          versionA: version.id,
-        }));
-      });
+      this.versions
+        .create({
+          negotiation: data.id,
+          content: negotiationDetails.content,
+          dealAgreed: false
+        })
+        .then(version => {
+          this.negotiations.update({ aVersion: version.id }, { where: { id: data.id } }).then(() =>
+            res.status(201).send({
+              ...data.dataValues,
+              versionA: version.id
+            })
+          );
+        });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
@@ -78,14 +94,12 @@ class Negotiations {
       // destructuring/renaming avoids a layer of nesting of dataValues keys
       const { dataValues: negotiation } = await this.negotiations.findOne({
         where: { id },
-        include: ['aDetails', 'bDetails', 'aContent', 'bContent'],
+        include: ['aDetails', 'bDetails', 'aContent', 'bContent']
       });
 
-      const partyId = req.token;
+      const { partyId } = req;
 
-      const [your, their] = partyId === negotiation.partyA
-        ? ['a', 'b']
-        : ['b', 'a'];
+      const [your, their] = partyId === negotiation.partyA ? ['a', 'b'] : ['b', 'a'];
 
       const body = {
         id: parseInt(id, 10),
@@ -97,7 +111,7 @@ class Negotiations {
         theirContent: negotiation[`${their}Content`],
         publishedAt: negotiation.publishedAt,
         modifiedAt: negotiation.publishedAt,
-        youEditedLast: true,
+        youEditedLast: true
       };
 
       res.send(body).status(200);
@@ -110,14 +124,12 @@ class Negotiations {
 
   async getAll(req, res) {
     try {
-      const partyId = req.token;
+      const { partyId } = req;
       const negotiations = await this.negotiations.findAll({
-        include: ['aDetails', 'bDetails', 'aContent', 'bContent'],
+        include: ['aDetails', 'bDetails', 'aContent', 'bContent']
       });
-      const body = negotiations.map((negotiation) => {
-        const [your, their] = partyId === negotiation.partyA
-          ? ['a', 'b']
-          : ['b', 'a'];
+      const body = negotiations.map(negotiation => {
+        const [your, their] = partyId === negotiation.partyA ? ['a', 'b'] : ['b', 'a'];
         return {
           id: parseInt(negotiation.id, 10),
           title: negotiation.title,
@@ -128,7 +140,7 @@ class Negotiations {
           theirContent: negotiation[`${their}Content`],
           publishedAt: negotiation.publishedAt,
           modifiedAt: negotiation.publishedAt,
-          youEditedLast: true,
+          youEditedLast: true
         };
       });
 

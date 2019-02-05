@@ -47,4 +47,7 @@ module.exports = {
     database: process.env.DB_NAME,
     multipleStatements: true,
   },
+  authorisation: {
+    secret: process.env.API_SECRET,
+  },
 };
