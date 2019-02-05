@@ -119,7 +119,7 @@ class Negotiations {
           ? ['a', 'b']
           : ['b', 'a'];
         return {
-          id: parseInt(partyId, 10),
+          id: parseInt(negotiation.id, 10),
           title: negotiation.title,
           description: negotiation.description,
           yourDetails: sanitize(negotiation[`${your}Details`]).dataValues,

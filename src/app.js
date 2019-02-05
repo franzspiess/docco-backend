@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 
 const path = require('path');
+const cors = require('cors');
 const logger = require('morgan');
 const auth = require('./middleware/auth');
 const Router = require('./routes');
@@ -13,10 +14,12 @@ const NegotiationsController = require('./controllers/negotiations.controller');
 const partiesController = new PartiesController(Party);
 const negotiationsController = new NegotiationsController(Negotiation, Version);
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(auth);
 
 app.use('/', Router(partiesController, negotiationsController));

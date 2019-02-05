@@ -10,6 +10,7 @@ class Parties {
 
   // eslint-disable-next-line no-unused-vars
   async create(req, res, next) {
+    console.log('this is the negotiation request: ', req.body);
     try {
       const data = await this.parties.create(req.body);
       res.status(201).send(sanitize(data.dataValues));
