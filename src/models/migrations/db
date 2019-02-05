@@ -1,15 +1,15 @@
 CREATE DATABASE  IF NOT EXISTS `docco_database` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `docco_database`;
--- MySQL dump 10.13  Distrib 5.7.25, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for macos10.14 (x86_64)
 --
--- Host: localhost    Database: docco_database
+-- Host: 127.0.0.1    Database: docco_database
 -- ------------------------------------------------------
--- Server version	5.7.25-0ubuntu0.18.04.2
+-- Server version	8.0.13
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -23,7 +23,7 @@ USE `docco_database`;
 
 DROP TABLE IF EXISTS `negotiations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `negotiations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(45) NOT NULL,
@@ -43,8 +43,18 @@ CREATE TABLE `negotiations` (
   CONSTRAINT `latestVersion` FOREIGN KEY (`aVersion`) REFERENCES `versions` (`id`),
   CONSTRAINT `partyA` FOREIGN KEY (`partyA`) REFERENCES `parties` (`id`),
   CONSTRAINT `partyB` FOREIGN KEY (`partyB`) REFERENCES `parties` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `negotiations`
+--
+
+LOCK TABLES `negotiations` WRITE;
+/*!40000 ALTER TABLE `negotiations` DISABLE KEYS */;
+INSERT INTO `negotiations` VALUES (30,'Mallorcan/Venezuelan Space Force agreement','Liquidity Injection to Facilitate Increased Crack Production',45,47,'2019-02-05 19:00:44','2019-02-05 19:00:44',64,NULL,1),(31,'Mallorcan/Venezuelan Space Force agreement','Liquidity Injection to Facilitate Increased Crack Production',45,47,'2019-02-05 19:17:18','2019-02-05 19:17:18',65,66,0);
+/*!40000 ALTER TABLE `negotiations` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `parties`
@@ -52,7 +62,7 @@ CREATE TABLE `negotiations` (
 
 DROP TABLE IF EXISTS `parties`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `parties` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `legalName` text NOT NULL,
@@ -62,12 +72,24 @@ CREATE TABLE `parties` (
   `authorisation` text,
   `createAt` varchar(45) DEFAULT 'NOW()',
   `updatedAt` varchar(45) DEFAULT 'NOW()',
+  `token` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `NAME_UNIQUE` (`id`),
   UNIQUE KEY `Email_UNIQUE` (`displayName`),
-  UNIQUE KEY `Address_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `Address_UNIQUE` (`email`),
+  UNIQUE KEY `token_UNIQUE` (`token`)
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `parties`
+--
+
+LOCK TABLES `parties` WRITE;
+/*!40000 ALTER TABLE `parties` DISABLE KEYS */;
+INSERT INTO `parties` VALUES (45,'gabe LLC','gabe','gabe@gabe.com','NFA, Bondi Beach, NSW, Australia, 2000','$2a$08$E4/5jSwTftmkjwiz8EMpG.Kjpa2JvvIyVP65GdNZpADS/01H8/9Yy','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.Z2FiZUBnYWJlLmNvbQ.dOcDd8zMZj2mhFuyuMAizfzWTjb4izssN4fQLDheYbI'),(46,'Surfboard LLC','Surf','surf@waves.com','NFA, Bondi Beach, NSW, Australia, 2000','$2a$08$q4quah4CN61L3IXYjdejDeb3LCmnHNeHDaZngCND6.IoDpqX1jqHa','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.c3VyZkB3YXZlcy5jb20.GZLzlIgPbQY0FTR8iZHvM1Ti_yAEm-gqOZmNYAEDyAk'),(47,'Edward','Edward Ltd','eddie@waves.com','NFA, Bondi Beach, NSW, Australia, 2000','$2a$08$FVugg.gRyj9WCpmGOrKCDeN3j4lGVGKztlIDeUWShAvOCWCHF7nJ6','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.ZWRkaWVAd2F2ZXMuY29t.5Tmt5J6lfl6PIU-gEimJxcz3My2I-GzuV_Cm2DdEdxo'),(48,'Franz','Framz Ltd','framz@waves.com','NFA, Bondi Beach, NSW, Australia, 2000','$2a$08$LHtGnGi3KPievdhJG1.cpuMs3TSzXIR4QdH3NZ7I72JzNIbeAvMFq','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.ZnJhbXpAd2F2ZXMuY29t.F9HjmgBqW_sRQtVtedsWEitrVlgM9anhsSQ1cXSfMNU');
+/*!40000 ALTER TABLE `parties` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `versions`
@@ -75,7 +97,7 @@ CREATE TABLE `parties` (
 
 DROP TABLE IF EXISTS `versions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `versions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `negotiation` int(11) NOT NULL,
@@ -86,8 +108,18 @@ CREATE TABLE `versions` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `negotiation_id_idx` (`negotiation`),
   CONSTRAINT `negotiation_id` FOREIGN KEY (`negotiation`) REFERENCES `negotiations` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `versions`
+--
+
+LOCK TABLES `versions` WRITE;
+/*!40000 ALTER TABLE `versions` DISABLE KEYS */;
+INSERT INTO `versions` VALUES (64,30,'### This agreement is binding and has the full force of Mexican law','2019-02-05 19:00:45',0),(65,31,'### This agreement is binding and has the full force of Mexican law','2019-02-05 19:17:18',0),(66,31,'### Butt Insurance #### Parties Gabe Riera and Franz Spiess. Butt butt butt butt butt butt butt butter butt butter but butt butter but butt butt butter butt butter butter butt butt butt butt butt butt butter butt butter but butt butter but butt butt butter butt butter butter butt butt butt butt butt butt butter butt butter but butt butter but butt butt butter butt butter butter butt butt butt butt butt butt butter butt butter but butt butter but butt butt butter butt butter butter butt butt butt butt butt butt butter butt butter but butt butter but butt butt butter butt butter butter','2019-02-05 19:23:08',0);
+/*!40000 ALTER TABLE `versions` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -98,4 +130,4 @@ CREATE TABLE `versions` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-04 15:31:21
+-- Dump completed on 2019-02-05 21:35:46
