@@ -5,14 +5,14 @@ const cors = require('cors');
 
 const path = require('path');
 const logger = require('morgan');
-const auth = require('./middleware/auth');
+// const auth = require('./middleware/auth');
 const Router = require('./routes');
 const { Party, Negotiation, Version } = require('./models');
 const PartiesController = require('./controllers/parties.controller');
 const NegotiationsController = require('./controllers/negotiations.controller');
 
 const partiesController = new PartiesController(Party);
-const negotiationsController = new NegotiationsController(Negotiation, Version);
+const negotiationsController = new NegotiationsController(Negotiation, Party, Version);
 
 app.use(cors());
 app.use(logger('dev'));

@@ -2,9 +2,10 @@ const sanitize = require('../utils/sanitize');
 const omit = require('../utils/omit');
 
 class Negotiations {
-  constructor(negotiations, versions) {
+  constructor(negotiations, parties, versions) {
     this.negotiations = negotiations;
     this.versions = versions;
+    this.parties = parties;
     this.create = this.create.bind(this);
     this.getOne = this.getOne.bind(this);
     this.getAll = this.getAll.bind(this);
@@ -13,7 +14,7 @@ class Negotiations {
 
   async publish(req, res) {
     const { content, dealAgreed } = req.body;
-    const { token } = req;
+    const { partyId } = req;
     const negotiation = req.params.negotiationId;
     try {
       if (!dealAgreed) {
@@ -25,7 +26,7 @@ class Negotiations {
         this.negotiations.findByPk(negotiation).then(entry => {
           entry
             .update(
-              entry.partyA === token
+              entry.partyA === partyId
                 ? { aVersion: newVersion.id, latestProposerA: true }
                 : { bVersion: newVersion.id, latestProposerA: false }
             )
@@ -57,8 +58,14 @@ class Negotiations {
 
   async create(req, res) {
     try {
-      const { token } = req;
-      const negotiationDetails = { ...req.body, partyA: token, latestProposerA: true };
+      const partyB = await this.parties.findOne({ where: { email: req.body.partyBEmail } });
+      const { partyId } = req;
+      const negotiationDetails = {
+        ...req.body,
+        partyA: partyId,
+        partyB: partyB.id,
+        latestProposerA: true
+      };
       const data = await this.negotiations.create(omit(['content'], negotiationDetails));
       this.versions
         .create({
