@@ -5,19 +5,19 @@ const { Party } = require('../models');
 
 module.exports = async (req, res, next) => {
   // Todo: install and use Redis instead of currentlyLoggedParties
-  const currentlyLoggedParties = {}; // { bearerToken : "partyId" }
+  const currentlyLoggedParties = {}; // { token : "partyId" }
   const { authorization } = req.headers;
-  const [, bearerToken] = authorization.split(' ');
+  const [, token] = authorization.split(' ');
 
-  if (bearerToken in currentlyLoggedParties) {
-    req.token = currentlyLoggedParties.bearerToken;
+  if (token in currentlyLoggedParties) {
+    req.partyId = currentlyLoggedParties.bearerToken;
     next();
   }
 
-  const party = await Party.findOne({ where: { token: bearerToken } });
+  const party = await Party.findOne({ where: { token } });
 
   if (party) {
-    req.token = party.id;
+    req.partyId = party.id;
     currentlyLoggedParties[party.token] = party.id;
     next();
   } else {

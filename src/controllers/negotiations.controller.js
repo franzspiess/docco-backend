@@ -90,7 +90,7 @@ class Negotiations {
         include: ['aDetails', 'bDetails', 'aContent', 'bContent']
       });
 
-      const partyId = req.token;
+      const { partyId } = req;
 
       const [your, their] = partyId === negotiation.partyA ? ['a', 'b'] : ['b', 'a'];
 
@@ -117,7 +117,7 @@ class Negotiations {
 
   async getAll(req, res) {
     try {
-      const partyId = req.token;
+      const { partyId } = req;
       const negotiations = await this.negotiations.findAll({
         include: ['aDetails', 'bDetails', 'aContent', 'bContent']
       });
