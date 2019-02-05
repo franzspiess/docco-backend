@@ -11,7 +11,7 @@ sequelize
   .authenticate()
   .then(() => {
     // eslint-disable-next-line
-    console.log('Connection has been established successfully.');
+    console.log('Database connection has been established successfully. 🤖');
   })
   .catch((err) => {
     // eslint-disable-next-line

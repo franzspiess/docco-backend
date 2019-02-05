@@ -1,4 +1,7 @@
 const sanitize = require('../utils/sanitize');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const config = require('../config/config.js');
 
 class Parties {
   constructor(parties) {
@@ -11,11 +14,16 @@ class Parties {
   // eslint-disable-next-line no-unused-vars
   async create(req, res, next) {
     try {
-      const data = await this.parties.create(req.body);
-      res.status(201).send(sanitize(data.dataValues));
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      const party = req.body;
+      const salt = await bcrypt.genSalt(8);
+      party.authorisation = await bcrypt.hash(req.body.authorisation, salt);
+      // create jwt token and add to party object
+      party.token = await jwt.sign(party.email, config.authorisation.secret);
+      // save party to database
+      const createdParty = await this.parties.create(party);
+      // return created Party without authorisation (hashed password)
+      res.status(201).send(sanitize(createdParty.dataValues));
+    } catch (err) {
       res.status(422).send('Error creating party :(');
     }
   }
