@@ -79,11 +79,10 @@ CREATE TABLE `parties` (
   UNIQUE KEY `Email_UNIQUE` (`displayName`),
   UNIQUE KEY `Address_UNIQUE` (`email`),
   UNIQUE KEY `token_UNIQUE` (`token`)
-<<<<<<< HEAD
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 =======
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
->>>>>>> 8cf417dd2d10c45ca3f94b2d4317e538779daf4f
+>>>>>>> Stashed changes
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,11 +91,10 @@ CREATE TABLE `parties` (
 
 LOCK TABLES `parties` WRITE;
 /*!40000 ALTER TABLE `parties` DISABLE KEYS */;
-<<<<<<< HEAD
-INSERT INTO `parties` VALUES (45,'gabe LLC','gabe','gabe@gabe.com','NFA, Bondi Beach, NSW, Australia, 2000','$2a$08$E4/5jSwTftmkjwiz8EMpG.Kjpa2JvvIyVP65GdNZpADS/01H8/9Yy','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.Z2FiZUBnYWJlLmNvbQ.dOcDd8zMZj2mhFuyuMAizfzWTjb4izssN4fQLDheYbI'),(46,'Surfboard LLC','Surf','surf@waves.com','NFA, Bondi Beach, NSW, Australia, 2000','$2a$08$q4quah4CN61L3IXYjdejDeb3LCmnHNeHDaZngCND6.IoDpqX1jqHa','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.c3VyZkB3YXZlcy5jb20.GZLzlIgPbQY0FTR8iZHvM1Ti_yAEm-gqOZmNYAEDyAk'),(47,'Edward','Edward Ltd','eddie@waves.com','NFA, Bondi Beach, NSW, Australia, 2000','$2a$08$FVugg.gRyj9WCpmGOrKCDeN3j4lGVGKztlIDeUWShAvOCWCHF7nJ6','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.ZWRkaWVAd2F2ZXMuY29t.5Tmt5J6lfl6PIU-gEimJxcz3My2I-GzuV_Cm2DdEdxo'),(48,'Franz','Framz Ltd','framz@waves.com','NFA, Bondi Beach, NSW, Australia, 2000','$2a$08$LHtGnGi3KPievdhJG1.cpuMs3TSzXIR4QdH3NZ7I72JzNIbeAvMFq','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.ZnJhbXpAd2F2ZXMuY29t.F9HjmgBqW_sRQtVtedsWEitrVlgM9anhsSQ1cXSfMNU');
+INSERT INTO `parties` VALUES (45,'gabe LLC','gabe','gabe@gabe.com','NFA, Bondi Beach, NSW, Australia, 2000',NULL,'$2a$08$E4/5jSwTftmkjwiz8EMpG.Kjpa2JvvIyVP65GdNZpADS/01H8/9Yy','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.Z2FiZUBnYWJlLmNvbQ.dOcDd8zMZj2mhFuyuMAizfzWTjb4izssN4fQLDheYbI'),(46,'Surfboard LLC','Surf','surf@waves.com','NFA, Bondi Beach, NSW, Australia, 2000',NULL,'$2a$08$q4quah4CN61L3IXYjdejDeb3LCmnHNeHDaZngCND6.IoDpqX1jqHa','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.c3VyZkB3YXZlcy5jb20.GZLzlIgPbQY0FTR8iZHvM1Ti_yAEm-gqOZmNYAEDyAk'),(47,'Edward','Edward Ltd','eddie@waves.com','NFA, Bondi Beach, NSW, Australia, 2000',NULL,'$2a$08$FVugg.gRyj9WCpmGOrKCDeN3j4lGVGKztlIDeUWShAvOCWCHF7nJ6','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.ZWRkaWVAd2F2ZXMuY29t.5Tmt5J6lfl6PIU-gEimJxcz3My2I-GzuV_Cm2DdEdxo'),(48,'Franz','Framz Ltd','framz@waves.com','NFA, Bondi Beach, NSW, Australia, 2000',NULL,'$2a$08$LHtGnGi3KPievdhJG1.cpuMs3TSzXIR4QdH3NZ7I72JzNIbeAvMFq','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.ZnJhbXpAd2F2ZXMuY29t.F9HjmgBqW_sRQtVtedsWEitrVlgM9anhsSQ1cXSfMNU'),(49,'Radley','Radley Ltd','Radley@waves.com','NFA, Bondi Beach, NSW, Australia, 2000','4213345563236','$2a$08$wsm8SckzQQpGpgqXGLyxu.MTRKc7qaF.PGOqWV75HAtcWbBQosm3.','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.UmFkbGV5QHdhdmVzLmNvbQ.X0MR0MA2STF4GiIPcCkrHZmeAI_GuUxtAXde9Mxxt5I');
 =======
 INSERT INTO `parties` VALUES (45,'gabe LLC','gabe','gabe@gabe.com','NFA, Bondi Beach, NSW, Australia, 2000',NULL,'$2a$08$E4/5jSwTftmkjwiz8EMpG.Kjpa2JvvIyVP65GdNZpADS/01H8/9Yy','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.Z2FiZUBnYWJlLmNvbQ.dOcDd8zMZj2mhFuyuMAizfzWTjb4izssN4fQLDheYbI'),(46,'Surfboard LLC','Surf','surf@waves.com','NFA, Bondi Beach, NSW, Australia, 2000',NULL,'$2a$08$q4quah4CN61L3IXYjdejDeb3LCmnHNeHDaZngCND6.IoDpqX1jqHa','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.c3VyZkB3YXZlcy5jb20.GZLzlIgPbQY0FTR8iZHvM1Ti_yAEm-gqOZmNYAEDyAk'),(47,'Edward','Edward Ltd','eddie@waves.com','NFA, Bondi Beach, NSW, Australia, 2000',NULL,'$2a$08$FVugg.gRyj9WCpmGOrKCDeN3j4lGVGKztlIDeUWShAvOCWCHF7nJ6','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.ZWRkaWVAd2F2ZXMuY29t.5Tmt5J6lfl6PIU-gEimJxcz3My2I-GzuV_Cm2DdEdxo'),(48,'Franz','Framz Ltd','framz@waves.com','NFA, Bondi Beach, NSW, Australia, 2000',NULL,'$2a$08$LHtGnGi3KPievdhJG1.cpuMs3TSzXIR4QdH3NZ7I72JzNIbeAvMFq','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.ZnJhbXpAd2F2ZXMuY29t.F9HjmgBqW_sRQtVtedsWEitrVlgM9anhsSQ1cXSfMNU'),(49,'Radley','Radley Ltd','Radley@waves.com','NFA, Bondi Beach, NSW, Australia, 2000','4213345563236','$2a$08$wsm8SckzQQpGpgqXGLyxu.MTRKc7qaF.PGOqWV75HAtcWbBQosm3.','NOW()','NOW()','eyJhbGciOiJIUzI1NiJ9.UmFkbGV5QHdhdmVzLmNvbQ.X0MR0MA2STF4GiIPcCkrHZmeAI_GuUxtAXde9Mxxt5I');
->>>>>>> 8cf417dd2d10c45ca3f94b2d4317e538779daf4f
+>>>>>>> Stashed changes
 /*!40000 ALTER TABLE `parties` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,8 +137,7 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-<<<<<<< HEAD
--- Dump completed on 2019-02-05 21:35:46
+-- Dump completed on 2019-02-06 11:06:37
 =======
 -- Dump completed on 2019-02-06 11:06:37
->>>>>>> 8cf417dd2d10c45ca3f94b2d4317e538779daf4f
+>>>>>>> Stashed changes
