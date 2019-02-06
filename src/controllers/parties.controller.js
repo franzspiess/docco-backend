@@ -13,7 +13,16 @@ class Parties {
   }
 
   async login(req, res) {
-    const [, base64Token] = req.headers.authorization.split(' ');
+    if (typeof req.headers.authorization !== 'string') {
+      res.status(401).send('Not Authorized');
+      return;
+    }
+    const tokens = req.headers.authorization.split(' ');
+    if (tokens.length < 2) {
+      res.status(401).send('Not Authorized');
+      return;
+    }
+    const [, base64Token] = tokens;
     try {
       const [email, password] = Buffer.from(base64Token, 'base64')
         .toString('utf8')
