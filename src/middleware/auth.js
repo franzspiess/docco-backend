@@ -16,7 +16,6 @@ module.exports = async (req, res, next) => {
   const token = receivedToken[1];
 
   if (token in currentlyLoggedParties) {
-    console.log('logged parties', currentlyLoggedParties);
     req.partyId = currentlyLoggedParties.token;
     next();
   }
