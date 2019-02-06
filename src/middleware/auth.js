@@ -12,10 +12,9 @@ module.exports = async (req, res, next) => {
     res.status(403).send('invalid Token 🧨');
     return;
   }
-
   const token = receivedToken[1];
   if (token in currentlyLoggedParties) {
-    req.partyId = currentlyLoggedParties.token;
+    req.partyId = currentlyLoggedParties[token];
     next();
     return;
   }
