@@ -2,15 +2,21 @@
 // Authentication will need to provide such a token, but will also need to deal
 // with edge cases where party isn't logged in yet (like create party)
 const { Party } = require('../models');
+// Todo: install and use Redis instead of currentlyLoggedParties
+const currentlyLoggedParties = {}; // { token : "partyId" }
 
 module.exports = async (req, res, next) => {
-  // Todo: install and use Redis instead of currentlyLoggedParties
-  const currentlyLoggedParties = {}; // { token : "partyId" }
   const { authorization } = req.headers;
-  const [, token] = authorization.split(' ');
+
+  const receivedToken = authorization.split(' ');
+  if (receivedToken.length < 2) {
+    res.status(403).send('invalid Token 🧨');
+    return;
+  }
+  const token = receivedToken[1];
 
   if (token in currentlyLoggedParties) {
-    req.partyId = currentlyLoggedParties.bearerToken;
+    req.partyId = currentlyLoggedParties.token;
     next();
   }
 
