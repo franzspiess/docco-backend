@@ -7,8 +7,37 @@ class Parties {
   constructor(parties) {
     this.parties = parties;
     this.create = this.create.bind(this);
+    this.login = this.login.bind(this);
     this.getPartyDetailsByEmail = this.getPartyDetailsByEmail.bind(this);
     this.getPartyDetailsById = this.getPartyDetailsById.bind(this);
+  }
+
+  async login(req, res) {
+    if (typeof req.headers.authorization !== 'string') {
+      res.status(401).send('Not Authorized');
+      return;
+    }
+    const tokens = req.headers.authorization.split(' ');
+    if (tokens.length < 2) {
+      res.status(401).send('Not Authorized');
+      return;
+    }
+    const [, base64Token] = tokens;
+    try {
+      const [email, password] = Buffer.from(base64Token, 'base64')
+        .toString('utf8')
+        .split(':');
+      const party = await this.parties.findOne({ where: { email } });
+      const isPasswordTrue = await bcrypt.compare(password, party.authorisation);
+      if (isPasswordTrue) {
+        res.status(200).send(sanitize(party.dataValues));
+      } else {
+        res.status(401).send('Not Authorized');
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(401).send('Not Authorized');
+    }
   }
 
   // eslint-disable-next-line no-unused-vars
