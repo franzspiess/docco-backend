@@ -7,20 +7,22 @@ const currentlyLoggedParties = {}; // { token : "partyId" }
 
 module.exports = async (req, res, next) => {
   const { authorization } = req.headers;
-
   const receivedToken = authorization.split(' ');
   if (receivedToken.length < 2) {
     res.status(403).send('invalid Token 🧨');
     return;
   }
-  const token = receivedToken[1];
 
+  const token = receivedToken[1];
   if (token in currentlyLoggedParties) {
     req.partyId = currentlyLoggedParties.token;
     next();
+    return;
   }
 
-  const party = await Party.findOne({ where: { token } });
+  const party = await Party.findOne({ where: { token } }).catch(err =>
+    console.log('Error query in auth.js ', err)
+  );
 
   if (party) {
     req.partyId = party.id;
