@@ -1,11 +1,9 @@
 // current token is being used in the controllers as the logged in parties ID.
 // Authentication will need to provide such a token, but will also need to deal
 // with edge cases where party isn't logged in yet (like create party)
-const { Party } = require('../models');
+
 
 module.exports = async (req, res, next) => {
-  // Todo: install and use Redis instead of currentlyLoggedParties
-  const currentlyLoggedParties = {}; // { token : "partyId" }
   const { authorization } = req.headers;
   const [, token] = authorization.split(' ');
 
