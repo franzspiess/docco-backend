@@ -60,7 +60,6 @@ class Negotiations {
     try {
       const partyB = await this.parties.findOne({ where: { email: req.body.partyBEmail } });
       const { partyId } = req;
-      console.log('PartyID in req');
       const negotiationDetails = {
         ...req.body,
         partyA: partyId,
